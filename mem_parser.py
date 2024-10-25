@@ -5,7 +5,7 @@ File name: Mem_parser.py
 Author: Rory Handley
 Contact: 
 Created: 25/09/2024
-Version: 2.0
+Version: 3.0
 Description: Script to help troubleshoot High Memory Usage Tickets
 """
 
