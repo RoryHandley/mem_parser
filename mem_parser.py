@@ -306,7 +306,6 @@ def topstats_analyser(topstat_file_data_list):
     total_memory_tracker = defaultdict(float)
 
     # Create a list of unique processes in our data
-    # E.g. ['tuned', 'python3', 'polkitd', 'hasplmd_x86_64', 'systemd', 'top', 'kthreadd', 'rcu_gp']
     for dict in topstat_file_data_list:
         for key in dict:
             if (key == 'COMMAND') and (dict[key] not in unique_processes):
@@ -319,17 +318,14 @@ def topstats_analyser(topstat_file_data_list):
                 total_memory_tracker[specific_process] += entry.get("%MEM", 0)  # Add %MEM or default to 0 if missing
 
     # total_memory_tracker is now equal to a dictionary that looks like below e.g.:
-    # {'Python': 6363252, 'VPSI': 546363652, 'SNMP': 525252563........}
     # No we want to sort this dictionary, but the problem is that dictionaries are inherently orderless by nature.  
     # Instead, we can convert our dictionary into a list of tuples and sort the tuples. (Recall tuples are ordered)
 
     sorted_items = sorted(total_memory_tracker.items(), key=lambda item: item[1], reverse=True)
 
-    # total_memory_tracker.items() - will give us a list of tuples based on our dictionary keys and values e.g. [('Python', 6363252), ('VPSI', 546363652), ('SNMP', 525252563)]
     # key=lambda item: item[1] - key is a function determines what to sort by. In this case, it is a lambda expression where syntax is lambda arguement : expression. 
     # So this key is saying sort by element at index 1 of each tuple i.e. the total %MEM value.
     # Reverse = True is saying sort in descending order, so we are left with a list of tuples that are sorted in descending order of total %MEM usage. 
-    # So we'll have [('VPSI', 546363652), ('SNMP', 525252563), ('Python', 6363252)]
 
 
     # Now we have these values, we want to display them somehow on a graph to view the memory usage trend.
